@@ -1,0 +1,22 @@
+{
+  "name": "angular-advanced-training",
+  "version": "1.0.0",
+  "description": "Angular advanced training material",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server --cors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gofore/angular2-training.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gofore/angular-advanced-training/issues"
+  },
+  "homepage": "https://github.com/gofore/angular-advanced-training#readme",
+  "dependencies": {
+    "live-server": "^1.0.0"
+  }
+}
