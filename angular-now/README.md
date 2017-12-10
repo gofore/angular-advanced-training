@@ -1,6 +1,13 @@
 # Angular Now
 
 ---
+# Contents
+- Angular's version history
+- Couple of new features show-cased
+- Guesses on the future
+- @angular/cli status
+
+---
 # Angular History
 #### Angular 2 (September 2016)
 ##### [Angular 2.1](http://angularjs.blogspot.fi/2016/10/angular-210-now-available.html) (October 2016)
@@ -87,7 +94,7 @@ devDependencies {
 - [Details](https://www.npmjs.com/package/@angular-devkit/build-optimizer)
 
 ---
-# Guesses on Future
+# Guesses On the Future
 Main concentration in near future (Angular 5.x):
 - `@angular/service-worker` and other PWA updates
 - CLI fixes
@@ -103,7 +110,7 @@ Main concentration in near future (Angular 5.x):
 
 ---
 # Stuff Considered for @angular/cli V2
-- AOT by default 
+- AOT on everywhere by default (now only with `--prod`) 
 - [NativeScript](https://www.nativescript.org/) support
 - Usability upgrades based on actual user feedback
 - Configuration in JS/TS instead of JSON

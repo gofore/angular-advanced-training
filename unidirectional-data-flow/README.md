@@ -6,7 +6,7 @@
 - Service-based state management and its problems
 - Unidirectional data flow
 - Redux
-- @ngrx state management
+- @ngrx for state management
 
 ---
 # What Is State?
@@ -350,36 +350,34 @@ export class MyAppComponent {
 Typed actions make it easy to wrap the action type and payload for dispatching
 
 ```typescript
-export const HACKER_NEWS_ACTIONS = {
-  SET: '[Hacker News] Set',
-  LOAD_TOP_STORIES: '[Hacker News] Load top stories'
-};
+export const INCREMENT: '[Counter] Increment';
+export const RESET: '[Counter] Reset';
 
-export class SetAction implements Action {
-  readonly type = HACKER_NEWS_ACTIONS.SET;
+export class IncrementAction implements Action {
+  readonly type = INCREMENT;
 
-  constructor(public news: any[]) {
+  constructor(public value: number) {
   }
 }
 
-export class LoadTopStoriesAction implements Action {
-  readonly type = HACKER_NEWS_ACTIONS.LOAD_TOP_STORIES;
+export class ResetAction implements Action {
+  readonly type = RESET;
 }
 
 
-export type HackerNewsAction = SetAction | LoadTopStoriesAction;
+export type CounterAction = IncrementAction | ResetAction;
 ```
 
 ---
 # Typed Action Reducer
 
 ```typescript
-import { HackerNewsAction, HACKER_NEWS_ACTIONS } from '../actions/hacker-news.actions';
+import { CounterAction, INCREMENT } from '../actions/counter.actions';
 
-export function hackerNewsReducer(state: any[] = [], action: HackerNewsAction) {
+export function counterReducer(state: any[] = [], action: CounterAction) {
   switch (action.type) {
-    case HACKER_NEWS_ACTIONS.SET:
-      return action.news;
+    case INCREMENT:
+      return state + action.payload;
 
     default:
       return state;
@@ -391,12 +389,13 @@ export function hackerNewsReducer(state: any[] = [], action: HackerNewsAction) {
 # Typed Action Dispatching
 
 ```typescript
-this.store.dispatch(new SetAction(newsArr));
-this.store.dispatch(new LoadTopStories());
+this.store.dispatch(new IncrementAction(value));
+this.store.dispatch(new ResetAction());
 ```
 
 ---
 # Exercise
+Install @ngrx/store to the project and implement the store with single reducer called `HackerNewsReducer` which reacts to action called `SET` that sets the array of ids. Dispatch this kind of action when application is opened with some dummy ids. The payload should be typed as `number[]`.
 
 ---
 # Testing Reducers
@@ -405,17 +404,17 @@ this.store.dispatch(new LoadTopStories());
 - Example:
 
 ```typescript
-import { SetAction } from '../actions/hacker-news.actions';
-import { hackerNewsReducer } from './hacker-news.reducer';
+import { IncrementAction } from '../actions/counter.actions';
+import { counterReducer } from './counter.reducer';
 
-describe('hacker news reducer', () => {
-  describe('set', () => {
-    it('should set news to actual data', () => {
-      const state = hackerNewsReducer(
-        [],
-        new SetAction([15884927, 15884051, 15885829])
+describe('counter reducer', () => {
+  describe('increment', () => {
+    it('should increase the counter with value', () => {
+      const state = counterReducer(
+        10,
+        new IncrementAction(50)
       );
-      expect(state).toEqual([15884927, 15884051, 15885829]);
+      expect(state).toEqual(60);
     });
   });
 });
@@ -423,6 +422,7 @@ describe('hacker news reducer', () => {
 
 ---
 # Exercise
+Test your reducer for setting the array.
 
 ---
 # @ngrx/store-devtools
@@ -463,6 +463,10 @@ Install [Chrome extension](https://chrome.google.com/webstore/detail/redux-devto
 # @ngrx/store-devtools - Demo
 
 ---
+# Exercise
+Install the Chrome extension and instrument the dev tools and verify you see them in the developer tools of Chrome.
+
+---
 # @ngrx/effects
 - Side effect model for @ngrx
 - Models side effects as Observables
@@ -475,11 +479,11 @@ npm install @ngrx/effects
 
 ```typescript
 import { EffectsModule } from '@ngrx/effects';
-import { HackerNewsEffects } from './effects/hacker-news';
+import { CounterEffects } from './effects/counter-news';
 
 @NgModule({
   imports: [
-    `EffectsModule.forRoot([HackerNewsEffects])`
+    `EffectsModule.forRoot([CounterEffects])`
   ]
 })
 export class AppModule {}
@@ -489,24 +493,23 @@ export class AppModule {}
 # @ngrx/effects - Effect
 
 ```typescript
-import { HACKER_NEWS_ACTIONS, LoadFailed, Set } from '../actions/hacker-news.actions';
+import { LOAD_COUNTER_INCREMENT, LoadFailed, Set } from '../actions/counter.actions';
 
 @Injectable()
-export class HackerNewsEffects {
+export class CounterEffects {
   constructor(private httpClient: HttpClient,
               private actions$: Actions) {
   }
 
-  // Listen for the 'LOAD_TOP_STORIES' action
-  @Effect() loadTopStories$: Observable<Action> = this.actions$
-    .ofType(HACKER_NEWS_ACTIONS.LOAD_TOP_STORIES)
+  @Effect() loadCounterIncrement$: Observable<Action> = this.actions$
+    .ofType(LOAD_COUNTER_INCREMENT)
     .pipe(
       mergeMap(
         () => this.httpClient
-          .get('https://hacker-news.firebaseio.com/v0/topstories.json')
+          .get('counter.example.com/increment')
           .pipe(
             // If successful, dispatch set action with result list
-            map((data: any[]) => new SetAction(data)),
+            map((data: any[]) => new IncrementAction(data)),
             // If request fails, dispatch failed action
             catchError(() => of(new LoadFailed()))
           )
@@ -515,6 +518,10 @@ export class HackerNewsEffects {
 }
 
 ```
+
+---
+# Exercise
+Implement news fetching from URL `https://hacker-news.firebaseio.com/v0/topstories.json` as an effect and populate the current news state with result. Skip the error handling until next exercise.
 
 ---
 # Exercise
@@ -532,8 +539,8 @@ Implement error/success messages component that
 # Testing Effects - Subscribing by Hand
 
 ```typescript
-describe('without marble', () => {
-  let effects: HackerNewsEffects;
+describe('counter effects', () => {
+  let effects: CounterEffects;
   let actions: Subject<any>;
   let httpMock: HttpTestingController;
 
@@ -543,36 +550,37 @@ describe('without marble', () => {
         HttpClientTestingModule,
       ],
       providers: [
-        HackerNewsEffects,
+        CounterEffects,
         provideMockActions(() => actions),
       ],
     });
 
-    effects = TestBed.get(HackerNewsEffects);
+    effects = TestBed.get(CounterEffects);
     httpMock = TestBed.get(HttpTestingController);
   });
 ```
 
 ---
-# Testing Effects - Subscribing by Hand
+# Testing Effects
 
 ```typescript
-it('should make a call to Hacker News', () => {
+it('should make the HTTP request for counter increment', () => {
     actions = new ReplaySubject(1);
-    actions.next(new LoadTopStories());
+    actions.next(new LoadCounterIncrement());
     
-    effects.loadTopStories$.subscribe(result => {
-      expect(result).toEqual(new SetAction([1, 2, 3]));
+    effects.loadCounterIncrement$.subscribe(result => {
+      expect(result).toEqual(new IncrementAction(10));
     });
     
-    const request = httpMock.expectOne('https://hacker-news.firebaseio.com/v0/topstories.json');
-    request.flush([1, 2, 3]);
+    const request = httpMock.expectOne('counter.example.com/increment');
+    request.flush(10);
     httpMock.verify();
 });
 ```
 
 ---
 # Exercise
+Implement the testing for your Hacker news effects.
 
 ---
 # @ngrx/router-store
@@ -612,6 +620,6 @@ Add reducer to prevent accessing single page in the system and instead navigate 
 
 ---
 # @ngrx/entity
-- Latest addition to @ngrx - released 
+- Latest addition to @ngrx
 - API to manipulate and query entity collection
 - Not covered in more detail
