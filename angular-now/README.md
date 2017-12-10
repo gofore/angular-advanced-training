@@ -1,20 +1,3 @@
-# Roope Hakulinen
-- Senior software engineer @ Gofore Plc
-- Angular since its first beta (Jan 2016)
-- About 15 production applications with Angular
-- Web & Mobile apps
-- 10+ Angular basics trainings
-- Organizer of Angular Finland meetups 
-
----
-# About the Training
-- Collection of topics that I find either
-    - Interesting
-    - Hot
-    - Common pain points
-- Ask & comment
-
----
 # Angular Now
 
 ---
