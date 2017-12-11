@@ -1,5 +1,5 @@
 # Tervetuloa Angular-jatkokoulutukseen!
-- Yliopiston koneen salasana on **Urasilta123**
+- Yliopiston koneen salasana on **Urasilta123!**
 - Avaa nämä kalvot osoitteesta **angular-advanced-training.herokuapp.com**
 - Oman koneen/editorin käyttäminen sopii omalla vastuullasi, mutta varmista, että sinulta löytyy Node.js >8.9 & npm 5 sekä @angular/cli@1.6.0
 - Jos käytät yliopiston konetta, niin aja seuraava rimpsu esim. työpöydällä terminaalissa:
