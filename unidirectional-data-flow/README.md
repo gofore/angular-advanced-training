@@ -394,6 +394,12 @@ this.store.dispatch(new ResetAction());
 ---
 # Exercise
 Install @ngrx/store to the project and implement the store with single reducer called `HackerNewsReducer` which reacts to action called `SET` that sets the array of ids. Dispatch this kind of action when application is opened with some dummy ids. The payload should be typed as `number[]`.
+1. Install @ngrx/store with npm
+2. Instantiate the `StoreModule` and set up `AppState` in `app/app.module.ts`
+3. Declare the typed actions in `app/actions/hacker-news.actions.ts`
+4. Implement the reducer in `app/reducers/hacker-news.reducer.ts`
+5. Create a component `HackerNewsComponent` that reads from the store and dispatches the initial action to set some data
+6. Use the created component in `AppComponent`
 
 ---
 # Testing Reducers
@@ -614,7 +620,14 @@ export class AppModule { }
 
 ---
 # Exercise
-Add reducer to prevent accessing single page in the system and instead navigate to home page and generate an error message.
+1. Add routing to your application by adding 
+```typescript
+RouterModule.forRoot([
+  { path: '', component: HackerNewsComponent }
+]),
+```
+to the `imports` list in _app.module.ts_ and replacing _app.component.html_ content with `<router-outler></router-outlet>`.
+2. Add reducer to prevent accessing single page in the system and instead navigate to home page and generate an error message.
 
 ---
 # @ngrx/entity
