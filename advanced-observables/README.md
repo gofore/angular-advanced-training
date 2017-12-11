@@ -331,7 +331,16 @@ subject.complete();
 
 ---
 # Exercise
-Implement custom operator called `instantCache` that makes the request instantly when created (is hot) and provides the same value for each subscriber
+Implement function `instantCache` that starts the interval instantly when created (is hot) and provides the same value for each subscriber
+
+```typescript
+const observable = instantCache(interval(1000).pipe(take(4)));
+setTimeout(() => observable.subscribe(console.log), 5000);
+// Should print "3" in 5 seconds
+```
+
+Tip: take completes after emitting 4 values
+Tip: there are many subjects capable for this
 
 ---
 # Testing Observables 
