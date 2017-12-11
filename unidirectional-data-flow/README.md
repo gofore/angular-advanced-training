@@ -179,31 +179,7 @@ const newState = reducer(initialState, { name: '[Counter] Add', payload: 10}); /
     - Changes are made with pure functions (reducers)
 
 ---
-# Redux - Usage
-
-```typescript
-import { createStore } from 'redux';
-
-function counter(state = 0, action) {
-    switch (action.type) {
-        case '[Counter] Increment':
-            return state + action.payload;
-        case '[Counter] Decrement':
-            return state - action.payload;
-        default:
-            return state;
-    }
-}
-
-const store = createStore(counter);
-
-store.subscribe(() => console.log(store.getState()));
-
-store.dispatch({ type: '[Counter] Increment', payload: 10 });
-```
-
----
-# Redux Demo
+# Redux - Demo
 
 ---
 # Immutability in JS
@@ -474,6 +450,21 @@ Install the Chrome extension and instrument the dev tools and verify you see the
 # @ngrx/effects
 - Side effect model for @ngrx
 - Models side effects as Observables
+- Each `effect` is a property with annotation `@Effect()` of the Effects class
+- Each `effect` checks with `ofType` whether an action is for it and if so, returns a new action at some point
+- Simplest effect that just changes the action type
+```typescript
+export class CounterEffects {
+  constructor(private actions$: Actions) {
+  }
+
+  @Effect() loadCounterIncrement$: Observable<Action> = this.actions$
+    .ofType('[Counter] Fetch increment')
+    .pipe(
+      map(() => new IncrementAction(10))
+    );
+}
+```
 
 ---
 # @ngrx/effects - Setup
@@ -520,7 +511,6 @@ export class CounterEffects {
       )
     );
 }
-
 ```
 
 ---
@@ -535,12 +525,19 @@ Implement error/success messages component that
 - Is shown when loading of top stories succeeds and/or fails
 
 ---
-# Testing Effects
-- Easiest with Angular TestBed to utilize dependency injection
-- Marble testing can be used where as the traditional subscribing by hand
+# Non-dispatching Effects
+- Event does not need to dispatch a new action in the end
+- If so, pass `{ dispatch: false }` as a argument for the `@Effect()`
+- Example:
+```typescript
+@Effect({ dispatch: false }) logActions$ = this.actions$
+    .pipe(tap(action => console.log(action)));
+```
 
 ---
-# Testing Effects - Subscribing by Hand
+# Testing Effects
+- Easiest with Angular TestBed to utilize dependency injection
+- `providerMockActions` will deliver a new Observable to subscribe to for each test
 
 ```typescript
 describe('counter effects', () => {
@@ -628,6 +625,11 @@ RouterModule.forRoot([
 ```
 to the `imports` list in _app.module.ts_ and replacing _app.component.html_ content with `<router-outler></router-outlet>`.
 2. Add reducer to prevent accessing single page in the system and instead navigate to home page and generate an error message.
+
+---
+# Feature modules & Lazy Loading
+- Both `@ngrx/store` and `@ngrx/effects` support feature modules
+- Also lazy loading is supported
 
 ---
 # @ngrx/entity
