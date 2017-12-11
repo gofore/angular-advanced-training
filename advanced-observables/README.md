@@ -117,7 +117,7 @@ Convert the following to lettable operators syntax
 ```typescript
 Observable.of(1, 2, 3).map(x => x * 2).subscribe(console.log);
 Observable.fromEvent(document, 'click')
-    .map(event => event.clientX < 100)
+    .filter(event => event.clientX < 100)
     .bufferTime(1000)
     .subscribe(console.log);
 ```
