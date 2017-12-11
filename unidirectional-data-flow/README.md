@@ -372,10 +372,10 @@ export type CounterAction = IncrementAction | ResetAction;
 ```typescript
 import { CounterAction, INCREMENT } from '../actions/counter.actions';
 
-export function counterReducer(state: any[] = [], action: CounterAction) {
+export function counterReducer(state = 10, action: CounterAction) {
   switch (action.type) {
     case INCREMENT:
-      return state + action.payload;
+      return state + action.value;
 
     default:
       return state;
