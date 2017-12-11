@@ -170,6 +170,7 @@ http-server -p 8080
 ---
 # Web App Manifest
 - JSON file that contains metadata about the application
+- Makes the app installable to home screen
 - Usually named `manifest.webmanifest`
 - Contains:
     - General info such as name, description etc.
