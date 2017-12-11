@@ -12,7 +12,7 @@
 
 ## Day 2
 ### Morning
-- Progressive Web Applications (PWA)](progressive-web-application/README.md)
+- [Progressive Web Applications (PWA)](progressive-web-application/README.md)
 - E2E testing](e2e-testing/README.md)
 
 ### Lunch
