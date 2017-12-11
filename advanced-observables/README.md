@@ -1,7 +1,4 @@
 # Advanced Observables
-
----
-# Contents
 - Building an observable yourself
 - Lettable operators
 - Creating a custom operator

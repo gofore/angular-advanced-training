@@ -1,7 +1,4 @@
 # Angular Now
-
----
-# Contents
 - Angular's version history
 - Couple of new features show-cased
 - Guesses on the future

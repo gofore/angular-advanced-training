@@ -1,7 +1,4 @@
 # State Management & Unidirectional Data Flow
-
----
-# Content
 - What is state and its management?
 - Service-based state management and its problems
 - Unidirectional data flow
@@ -237,6 +234,7 @@ const newState = [...state, payload];
 
 ---
 # @ngrx
+- Reactive Extensions for Angular (RxJS = Reactive Extensions for JS)
 - Full state management solution for Angular applications
 - Basically Redux + RxJS 
 - Set of npm modules:
