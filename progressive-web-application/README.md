@@ -6,7 +6,7 @@
 
 ---
 # PWA
-![PWA](progressive-web-applications/pwa.jpg "PWA")
+![PWA](progressive-web-application/pwa.jpg "PWA")
 
 ---
 # Characteristics
@@ -50,12 +50,50 @@
     - Fast first load
     - Caching
     - Search-engine optimization
- 
+
+---
+# Exercise
+Build Universal app ([source](https://blog.angular.io/angular-5-1-more-now-available-27d372f5eb4e)):
+1. Run:
+```bash
+npm install --save @angular/platform-server @nguniversal/module-map-ngfactory-loader ts-loader
+ng g universal universal
+```
+2. Copy [this](https://gist.github.com/RoopeHakulinen/9c9653cf62326ddbaff065729e3d8b64) to be the `server.ts` in your project's root
+3. Copy [this](https://gist.github.com/RoopeHakulinen/94bfa8023eea331f11f78a9ec815605b) to be the `webpack.server.config.js` in your project's root
+4. Add these to the `scripts` section of `package.json`:
+```json
+"ssr": "npm run build:ssr && npm run serve:ssr",
+"build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
+"serve:ssr": "node dist/server.js",
+"build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
+"webpack:server": "webpack --config webpack.server.config.js --progress --colors"
+```
+
+Continue to next slide ->
+
+---
+# Exercise
+5. Alter `.angular-cli.json` to contain
+```json
+"outDir": "dist/server/",
+```
+for server and 
+```json
+"outDir": "dist/browser/",
+```
+for browser
+5. Run 
+```bash
+npm run ssr
+```
+and go to `localhost:4000` to see what initial page load's HTML now looks
+
 ---
 # State Retrieval
 - Problem: Both, browser and backend, ask for the same data
 
-![State Problem](progressive-web-applications/state-problem.png "State Problem")
+![State Problem](progressive-web-application/state-problem.png "State Problem")
 
 Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-universal-server-side-rendering) 
 
@@ -74,7 +112,7 @@ Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-univers
 - Browser receives the data from the backend while bootstrapped
 - Angular Transfer State API
 
-![State Transfer API](progressive-web-applications/state-transfer-api.png "State Transfer API")
+![State Transfer API](progressive-web-application/state-transfer-api.png "State Transfer API")
 
 Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-universal-server-side-rendering)
     
@@ -84,13 +122,6 @@ Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-univers
     - [`BrowserTransferStateModule`](https://angular.io/api/platform-browser/BrowserTransferStateModule) found from `@angular/platform-browser`
     - [`ServerTransferStateModule`](https://angular.io/api/platform-server/ServerTransferStateModule) found from `@angular/platform-server`
 - Provides easy interface to move data from backend to the browser when control is changed
-
----
-# App Shell
-- "The minimal HTML, CSS, and JavaScript and any other static resources that provide the structure for your page, minus the actual content specific to the page."
-- Requires universal rendering
-
-![App Shell](progressive-web-applications/app-shell.png "App Shell")
 
 ---
 # Service Workers
@@ -107,6 +138,31 @@ Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-univers
 - Communication with main thread
 
 ---
+# Exercise
+Enable offline usage via service workers
+1. Run
+```bash
+npm install @angular/service-worker http-server
+ng set apps.0.serviceWorker=true
+```
+2. Add to `imports` in `app.module.ts`:
+```typescript
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+imports: [
+    ...
+    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
+]
+```
+3. Copy [this](https://gist.github.com/RoopeHakulinen/7d6f7457309d37c6cf369f4988e2aaa3) as `src/ngsw-config.json`
+4. Run
+```bash
+ng build --prod
+cd dist/browser/
+http-server -p 8080
+```
+
+---
 # Web App Manifest
 - JSON file that contains metadata about the application
 - Usually named `manifest.webmanifest`
@@ -116,6 +172,17 @@ Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-univers
     - Related applications
 
 ---
+# Exercise
+Add Web App Manifest:
+1. Save [this](https://gist.github.com/RoopeHakulinen/0328cb84f20318b400dd292fe936219c) as `src/manifest.webmanifest`
+2. Add "manifest.webmanifest" to the both `assets` arrays in `.angular-cli.json`
+3. Add 
+```html
+<link rel="manifest" href="manifest.webmanifest"/>
+```
+to the `index.html` in `<head>` section
+
+---
 # IndexedDB
 - Local noSQL database
 - Good for large data blobs such as files
@@ -123,7 +190,7 @@ Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-univers
 
 ---
 # Push Messages
-![Push Messages](progressive-web-applications/push-message.gif "Push Messages")
+![Push Messages](progressive-web-application/push-message.gif "Push Messages")
 
 ---
 # Support
@@ -136,15 +203,13 @@ Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-univers
 
 ---
 # WebKit (Apple) Support
-![Apple PWA news 1](progressive-web-applications/apple-pwa-news-1.png "Apple PWA news 1")
-![Apple PWA news 2](progressive-web-applications/apple-pwa-news-2.png "Apple PWA news 2")
+![Apple PWA news 1](progressive-web-application/apple-pwa-news-1.png "Apple PWA news 1")
+![Apple PWA news 2](progressive-web-application/apple-pwa-news-2.png "Apple PWA news 2")
 
 ---
 # Lighthouse - PWA assessment tool
-![Lighthouse](progressive-web-applications/lighthouse.png "Lighthouse")
+![Lighthouse](progressive-web-application/lighthouse.png "Lighthouse")
 
 ---
 # Exercise
-- Familiarize yourself with the app and run it
-- Add universal rendering capability
-- Add Service Worker support to be usable offline
+Run Lighthouse for your application, you should get score of 64 for PWA section
