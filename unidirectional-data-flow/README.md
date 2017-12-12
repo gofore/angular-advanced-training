@@ -589,9 +589,9 @@ Implement the testing for your Hacker news effects.
 
 ---
 # @ngrx/router-store
-- Connect Angular router to @ngrx/store
+- Connects Angular router to @ngrx/store
 - `ROUTER_NAVIGATION` action dispatched on navigation before any guards or resolvers run
-- Reducer throwing an error cancels navigation
+- Reducer throwing an error for `ROUTER_NAVIGATION` cancels navigation
 - `ROUTER_CANCEL` (guard prevented navigation) and `ROUTER_ERROR` (navigation error)
 
 ---
@@ -608,7 +608,7 @@ import { App } from './app.component';
 @NgModule({
   imports: [
     BrowserModule,
-    StoreModule.forRoot({ routerReducer: routerReducer }),
+    StoreModule.forRoot({ router: routerReducer }),
     RouterModule.forRoot([
       // routes
     ]),
