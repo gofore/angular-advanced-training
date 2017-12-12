@@ -453,6 +453,7 @@ Install the Chrome extension and instrument the dev tools and verify you see the
 - Each `effect` is a property with annotation `@Effect()` of the Effects class
 - Each `effect` checks with `ofType` whether an action is for it and if so, returns a new action at some point
 - Simplest effect that just changes the action type
+
 ```typescript
 export class CounterEffects {
   constructor(private actions$: Actions) {
@@ -529,6 +530,7 @@ Implement error/success messages component that
 - Event does not need to dispatch a new action in the end
 - If so, pass `{ dispatch: false }` as a argument for the `@Effect()`
 - Example:
+
 ```typescript
 @Effect({ dispatch: false }) logActions$ = this.actions$
     .pipe(tap(action => console.log(action)));
@@ -617,12 +619,14 @@ export class AppModule { }
 
 ---
 # Exercise
-1. Add routing to your application by adding 
+1. Add routing to your application by adding
+ 
 ```typescript
 RouterModule.forRoot([
   { path: '', component: HackerNewsComponent }
 ]),
 ```
+
 to the `imports` list in _app.module.ts_ and replacing _app.component.html_ content with `<router-outler></router-outlet>`.
 2. Add reducer to prevent accessing single page in the system and instead navigate to home page and generate an error message.
 
