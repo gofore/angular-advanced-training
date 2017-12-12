@@ -147,7 +147,8 @@ Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-univers
 Enable offline usage via service workers
 1. Run
 ```bash
-npm install @angular/service-worker http-server
+npm install @angular/service-worker 
+npm install -g http-server
 ng set apps.0.serviceWorker=true
 ```
 2. Add to `imports` in `app.module.ts`:
@@ -186,7 +187,7 @@ Add Web App Manifest:
 ```html
 <link rel="manifest" href="manifest.webmanifest"/>
 ```
-to the `index.html` in `<head>` section
+to the `index.html` in `head` section
 
 ---
 # IndexedDB
