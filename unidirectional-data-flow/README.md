@@ -525,6 +525,8 @@ Implement error/success messages component that
 - Is controlled by its own reducer with its own actions and the reducer is tested
 - Is shown when loading of top stories succeeds and/or fails
 
+Tip: Start by thinking what should be handled by reducers and what by effects?
+
 ---
 # Non-dispatching Effects
 - Event does not need to dispatch a new action in the end
