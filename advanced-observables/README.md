@@ -163,8 +163,8 @@ Bonus: Make types sound so that the array that is returned has to contain items 
 ---
 # Hot vs. Cold Observables
 [Ben Lesh](https://medium.com/@benlesh/hot-vs-cold-observables-f8094ed53339) (RxJS 5 author): 
-- "An observable is “cold” if its underlying producer is created and activated during subscription."
-- "An observable is “hot” if its underlying producer is either created or activated outside of subscription."
+- "An observable is "cold" if its underlying producer is created and activated during subscription."
+- "An observable is "hot" if its underlying producer is either created or activated outside of subscription."
 - "Warm": Subscriptions shared but producer is only initiated once there is a single subscription
 
 In practice:

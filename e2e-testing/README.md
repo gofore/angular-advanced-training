@@ -115,7 +115,7 @@ it('should find an element by text input model', function() {
 ---
 # Async/await Without Promise Manager 
 ```typescript
-it('should find an element by text input model', function() {
+it('should find an element by text input model', async function() {
     await browser.get('app/index.html#/form');
     
     var username = await element(by.model('username'));
