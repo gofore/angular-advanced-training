@@ -3,7 +3,7 @@
 - Service-based state management and its problems
 - Unidirectional data flow
 - Redux
-- @ngrx for state management
+- @ngrx for Angular state management
 
 ---
 # What Is State?
@@ -217,8 +217,9 @@ const newState = [...state, payload];
     - @ngrx/store - Redux clone
     - @ngrx/effects - redux-observable like side effect management
     - @ngrx/router-store - Connects Angular router to store
-    - @ngrx/devtools - Tooling for 
-    - @ngrx/entity -  Entity State adapter for managing record collections
+    - @ngrx/devtools - Tooling for debugging store
+    - @ngrx/entity - Entity State adapter for managing record collections
+    - @ngrx/schematics - Angular CLI schematics to enable generators for @ngrx
 - Angular's current router is based on @ngrx router
 - Victor Savkin and Rob Wormald are part of the authors
 
