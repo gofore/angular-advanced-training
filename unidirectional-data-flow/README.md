@@ -364,7 +364,7 @@ export function counterReducer(state = 10, action: CounterAction) {
 # Typed Action Dispatching
 
 ```typescript
-this.store.dispatch(new IncrementAction(value));
+this.store.dispatch(new IncrementAction(10));
 this.store.dispatch(new ResetAction());
 ```
 
