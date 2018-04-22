@@ -35,19 +35,20 @@
 - Forbes
 - Flipboard
 - Telegram
+- Tinder
 
 ---
 # Technologies
+- Server-side rendering
 - Service Worker
 - Web App Manifest
-- Server-side rendering
 - Local databases
 
 ---
 # Universal Rendering
-- JS app that can be rendered either in browser or in the server
-- Once the app (JS) is loaded in the browser the HTML representation is replaced with the JS one
-- Supported by _@angular/cli@1.6.0_
+- App that can be rendered either in browser or in the server
+- Once the app is loaded in the browser the pre-rendered HTML representation is replaced with the JS one
+- Angular CLI support starting from 1.6.0
 - Server-side rendering (SSR) often used term
     - Takes application and route as input and produces HTML representation
 - [CLI Tutorial](https://github.com/angular/angular-cli/blob/master/docs/documentation/stories/universal-rendering.md)
@@ -57,15 +58,39 @@
     - Search-engine optimization
 
 ---
+# SSR Example
+Rendering a route with component like
+```html
+<div class="todos">
+    <div *ngFor="let todo of todos" class="todo">{{todo.name}}</div>
+</div>
+```
+
+```typescript
+export class TodosComponent {
+    todos = [{ name: 'Clean my room' }, { name: 'Do the laundry' }]
+}
+```
+
+will result in HTML
+
+```html
+<div class="todos">
+    <div class="todo">Clean my room</div>
+    <div class="todo">Do the laundry</div>
+</div>
+```
+
+---
 # Exercise
 Build Universal app ([source](https://blog.angular.io/angular-5-1-more-now-available-27d372f5eb4e)):
 1. Run:
 ```bash
-npm install --save @angular/platform-server @nguniversal/module-map-ngfactory-loader ts-loader
+npm install --save @angular/platform-server @nguniversal/module-map-ngfactory-loader ts-loader@3.5.0
 ng g universal universal
 ```
-2. Copy [this](https://gist.github.com/RoopeHakulinen/9c9653cf62326ddbaff065729e3d8b64) to be the `server.ts` in your project's root
-3. Copy [this](https://gist.github.com/RoopeHakulinen/94bfa8023eea331f11f78a9ec815605b) to be the `webpack.server.config.js` in your project's root
+2. Copy [this](https://gist.github.com/RoopeHakulinen/9c9653cf62326ddbaff065729e3d8b64) as `server.ts` in your project's root
+3. Copy [this](https://gist.github.com/RoopeHakulinen/94bfa8023eea331f11f78a9ec815605b) s `webpack.server.config.js` in your project's root
 4. Add these to the `scripts` section of `package.json`:
 ```json
 "ssr": "npm run build:ssr && npm run serve:ssr",
@@ -81,13 +106,13 @@ Continue to next slide ->
 # Exercise
 5. Alter `.angular-cli.json` to contain
 ```json
-"outDir": "dist/server/",
-```
-for server and 
-```json
 "outDir": "dist/browser/",
 ```
-for browser
+for the first object in `apps` array and 
+```json
+"outDir": "dist/server/",
+```
+for the second object in `apps` array
 5. Run 
 ```bash
 npm run ssr
@@ -156,17 +181,42 @@ ng set apps.0.serviceWorker=true
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 imports: [
-    ...
     ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
 ]
 ```
 3. Copy [this](https://gist.github.com/RoopeHakulinen/7d6f7457309d37c6cf369f4988e2aaa3) as `src/ngsw-config.json`
 4. Run
 ```bash
-ng build --prod
+npm run build
 cd dist/browser/
 http-server -p 8080
 ```
+
+---
+# Updating Service Worker
+- By default Angular Service Worker is cached and won't be updated
+- `SwUpdates` provides update checking and applying functionality:
+ - `checkForUpdate`: Check if an update is available
+ - `activateUpdate`: Update the service worker
+ - `activated`: Observable to notify if new service worker has been activated
+ - `available`: Observable to notify about new version becoming available
+
+---
+# Updating Service Worker
+
+```typescript
+export class AppComponent {
+  constructor(private updates: SwUpdate) {
+    this.updates.available.subscribe(() => {
+      this.updates.activateUpdate().then(() => document.location.reload());
+    });
+  }
+}
+```
+
+---
+# Push Notifications
+![Push Notifications](progressive-web-application/push-notification.gif "Push Notifications")
 
 ---
 # Web App Manifest
@@ -177,6 +227,36 @@ http-server -p 8080
     - General info such as name, description etc.
     - Look'n'feel (home screen icons, color theme, screen size and orientation)
     - Related applications
+
+---
+# Web App Manifest Example
+
+```json
+{
+  "name": "Hugo Explorer",
+  "short_name": "Hugo",
+  "theme_color": "#f00",
+  "background_color": "#3F51B5",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "\/assets\/icon-dpi.png",
+      "sizes": "48x48",
+      "type": "image\/png",
+      "density": "1.0"
+    },
+    {
+      "src": "\/assets\/icon-hdpi.png",
+      "sizes": "72x72",
+      "type": "image\/png",
+      "density": "1.5"
+    }
+  ]
+}
+
+```
 
 ---
 # Exercise
@@ -194,10 +274,6 @@ to the `index.html` in `head` section
 - Local noSQL database
 - Good for large data blobs such as files
 - Supports transactions
-
----
-# Push Messages
-![Push Messages](progressive-web-application/push-message.gif "Push Messages")
 
 ---
 # Support
