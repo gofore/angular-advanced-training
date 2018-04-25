@@ -370,13 +370,26 @@ this.store.dispatch(new ResetAction());
 
 ---
 # Exercise
-Install @ngrx/store to the project and implement the store with single reducer called `HackerNewsReducer` which reacts to action called `SET` that sets the array of ids. Dispatch this kind of action when application is opened with some dummy ids. The payload should be typed as `number[]`.
-1. Install @ngrx/store with npm
-2. Instantiate the `StoreModule` and set up `AppState` in `app/app.module.ts`
-3. Declare the typed actions in `app/actions/hacker-news.actions.ts`
-4. Implement the reducer in `app/reducers/hacker-news.reducer.ts`
-5. Create a component `HackerNewsComponent` that reads from the store and dispatches the initial action to set some data
-6. Use the created component in `AppComponent`
+Let's get started. 
+1. Run
+```bash
+npm install @ngrx/store @ngrx/effects @ngrx/store-devtools
+npm install @ngrx/schematics --save-dev
+ng set defaults.schematics.collection=@ngrx/schematics
+ng generate store State --root --module app
+```
+
+---
+# Exercise
+Let's create a feature called `news`.
+1. Run
+```bash
+ng generate feature news --module app
+ng generate component news
+```
+2. Set up initial data to contain `news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, again' }]`.
+3. Place `<app-news></app-news>` to `app.component.html` 
+4. Read the news from the store in the `NewsComponent` and show the titles in the template.
 
 ---
 # Testing Reducers
@@ -404,6 +417,20 @@ describe('counter reducer', () => {
 ---
 # Exercise
 Test your reducer for setting the array.
+
+---
+# What Should Be Part of Store: SHARI
+- Shared: Shared state accessed by many components & services 
+- Hydrated: State persisted and hydrated from storage
+- Available: State that needs to be available when re-entering routes
+- Retrieved: State that needs to be retrieved with a side effect
+- Impacted: State impacted by actions from other sources
+
+---
+# What Should Not Be Part of Store?
+- Forms
+- Non-serializable data
+- Ephemeral data
 
 ---
 # @ngrx/store-devtools
@@ -643,3 +670,11 @@ to the `imports` list in _app.module.ts_ and replacing _app.component.html_ cont
 - Latest addition to @ngrx
 - API to manipulate and query entity collection
 - Not covered in more detail
+
+---
+# Further Material
+- Selectors ([ngConf 2018 presentation](https://www.youtube.com/watch?v=Y4McLi9scfc), [docs](https://github.com/ngrx/platform/blob/master/docs/store/selectors.md)): How to get things from store more efficiently
+- [Feature modules](https://github.com/ngrx/platform/blob/master/docs/store/api.md#feature-module-state-composition): Lazy loading parts of store
+- [angular-ngrx-data](https://github.com/johnpapa/angular-ngrx-data): Upcoming module of @ngrx family to reduce boilerplate
+- [Meta-reducers](https://netbasal.com/implementing-a-meta-reducer-in-ngrx-store-4379d7e1020a): Higher order reducers
+- [Reducing boilerplate (ngConf 2018)](https://www.youtube.com/watch?v=t3jx0EC-Y3c)
