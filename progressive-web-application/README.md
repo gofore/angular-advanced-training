@@ -195,7 +195,7 @@ http-server -p 8080
 ---
 # Updating Service Worker
 - By default Angular Service Worker is cached and won't be updated
-- `SwUpdates` provides update checking and applying functionality:
+- `SwUpdate` provides update checking and applying functionality:
  - `checkForUpdate`: Check if an update is available
  - `activateUpdate`: Update the service worker
  - `activated`: Observable to notify if new service worker has been activated
