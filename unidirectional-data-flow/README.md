@@ -389,11 +389,11 @@ ng generate feature news --module app
 ng generate component news
 ```
 2. Set up the state to contain
-```
+```typescript
 news: News[]
 ```
 2. Set up initial data to contain 
-```
+```typescript
 news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, again' }]
 ```
 3. Place `<app-news></app-news>` to `app.component.html` 
