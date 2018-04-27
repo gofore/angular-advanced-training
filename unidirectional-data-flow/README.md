@@ -384,10 +384,18 @@ ng generate store State --root --module app
 Let's create a feature called `news`.
 1. Run
 ```bash
+ng generate interface news
 ng generate feature news --module app
 ng generate component news
 ```
-2. Set up initial data to contain `news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, again' }]`.
+2. Set up the state to contain
+```
+news: News[]
+```
+2. Set up initial data to contain 
+```
+news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, again' }]
+```
 3. Place `<app-news></app-news>` to `app.component.html` 
 4. Read the news from the store in the `NewsComponent` and show the titles in the template.
 
