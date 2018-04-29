@@ -325,18 +325,20 @@ export class MyAppComponent {
 Typed actions make it easy to wrap the action type and payload for dispatching
 
 ```typescript
-export const INCREMENT: '[Counter] Increment';
-export const RESET: '[Counter] Reset';
+export enum NewsActionTypes {
+  IncrementCounterAction = '[Counter] Increment',
+  ResetCounterAction = '[Counter] Reset'
+}
 
 export class IncrementAction implements Action {
-  readonly type = INCREMENT;
+  readonly type = NewsActionTypes.IncrementCounterAction;
 
   constructor(public value: number) {
   }
 }
 
 export class ResetAction implements Action {
-  readonly type = RESET;
+  readonly type = NewsActionTypes.ResetCounterAction;
 }
 
 
@@ -392,12 +394,78 @@ ng generate component news
 ```typescript
 news: News[]
 ```
-2. Set up initial data to contain 
+3. Set up initial data to contain 
 ```typescript
 news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, again' }]
 ```
-3. Place `<app-news></app-news>` to `app.component.html` 
-4. Read the news from the store in the `NewsComponent` and show the titles in the template.
+
+---
+# Selectors
+- Selectors allow picking parts of the state
+- Two types:
+ - Feature selector: Select a feature from whole store
+ - State selector: Withing one feature select the right part of the state
+
+---
+# Feature Selectores
+- Choose the right feature from the overall state of the application
+- Necessary because of lazy loading possibility of features
+ 
+```typescript
+export const getNewsFeature = createFeatureSelector<State>('news');
+```
+
+---
+# State Selectors
+- Choose the right part of the state based on the feature selector: 
+
+```typescript
+export const getNewsFeature = createFeatureSelector<State>('news');
+export const getNewsSelector = createSelector(
+  getNewsFeature,
+  state => state.news
+);
+```
+
+- Can also map data to certain format to provide more intelligent selectors:
+
+```typescript
+export const getNewsFeature = createFeatureSelector<State>('news');
+export const getTopNewsSelector = createSelector(
+  getNewsFeature,
+  state => state.news.slice(0,5)
+);
+```
+
+---
+# Using Selectors
+To access the state with selectors:
+
+```typescript
+import { Component, OnInit } from '@angular/core';
+import { State } from '../reducers';
+import { Store } from '@ngrx/store';
+import { getNewsSelector } from '../news.reducer';
+import { Observable } from 'rxjs/Observable';
+import { News } from '../news';
+
+@Component({
+  selector: 'app-news',
+  templateUrl: './news.component.html',
+  styleUrls: ['./news.component.css']
+})
+export class NewsComponent implements OnInit {
+  news: Observable<News[]>;
+
+  constructor(private store: Store<State>) {
+    `this.news = this.store.select(getNewsSelector);`
+  }
+}
+```
+
+---
+# Exercise
+Create a feature selector and state selector to select the news and use it in `NewsComponent`
 
 ---
 # Testing Reducers
