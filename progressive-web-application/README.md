@@ -169,27 +169,29 @@ Image source: [Malcoded](https://malcoded.com/posts/angular-fundamentals-univers
 
 ---
 # Exercise
-Enable offline usage via service workers
 1. Run
 ```bash
-npm install @angular/service-worker 
-npm install -g http-server
-ng set apps.0.serviceWorker=true
+ng add @angular/pwa
+npm install --save-dev http-server
 ```
-2. Add to `imports` in `app.module.ts`:
-```typescript
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
-imports: [
-    ServiceWorkerModule.register('/ngsw-worker.js', {enabled: environment.production})
-]
+
+2. Change the following in `package.json`:
 ```
-3. Copy [this](https://gist.github.com/RoopeHakulinen/7d6f7457309d37c6cf369f4988e2aaa3) as `src/ngsw-config.json`
+"build": "ng build",
+```
+to
+```
+"build": "ng build --prod",
+```
+
+3. Change `package.json` by adding new script (`scripts` property):
+```
+"local-pwa": "npm run build && http-server -p 8081 ./dist/angular6-pwa"
+```
+
 4. Run
 ```bash
-npm run build
-cd dist/browser/
-http-server -p 8080
+npm run local-pwa
 ```
 
 ---
