@@ -176,16 +176,16 @@ npm install --save-dev http-server
 ```
 
 2. Change the following in `package.json`:
-```
+```json
 "build": "ng build",
 ```
 to
-```
+```json
 "build": "ng build --prod",
 ```
 
 3. Change `package.json` by adding new script (`scripts` property):
-```
+```json
 "local-pwa": "npm run build && http-server -p 8081 ./dist/angular6-pwa"
 ```
 
