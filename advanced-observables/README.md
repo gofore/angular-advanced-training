@@ -1,6 +1,6 @@
 # Advanced Observables
 - Building an observable yourself
-- Lettable operators
+- Pipeable operators
 - Creating a custom operator
 - Subjects
 - Hot vs. cold observables
@@ -81,7 +81,7 @@ intervalObservable(500, 3000).subscribe(console.log, () => console.log('Complete
 - Schedulers
 
 ---
-# Lettable Operators
+# Pipeable Operators
 - [New way](https://github.com/ReactiveX/rxjs/blob/master/doc/lettable-operators.md) to apply operators released in RxJS 5.5
 ```typescript
 import { Observable } from 'rxjs/Observable';
@@ -100,9 +100,10 @@ of(1, 2, 3).pipe(map(x => x * 2)).subscribe(console.log);
     - `catch` -> `catchError`
     - `switch` -> `switchAll`
     - `finally` -> `finalize`
+- Called also "lettable operators"
 
 ---
-# Lettable Operators
+# Pipeable Operators
 - Pros: 
     - Tree-shaking possible
     - Static analysis possible
@@ -257,6 +258,7 @@ this.preloadedNewsService.getNews().subscribe();
 ---
 # `.publish()`
 - Returns a `ConnectableObservable` that shares the subscription to the original observable but only subscribes once `.connect()` is called
+
 ```typescript
 const obs = this.httpClient.get(this.url).publish(); // Returns ConnectableObservable
 obs.subscribe(console.log);
@@ -265,6 +267,7 @@ obs.connect();
 ```
 - Calling `.connect()` multiple times subscribes to the source multiple times
 - Subscriptions are made for the original observable, so they won't work:
+
 ```typescript
 const obs = this.httpClient.get(this.url).publish(); // Returns ConnectableObservable
 obs.subscribe(console.log); // This is logged normally
@@ -347,9 +350,10 @@ Tip: there are many subjects capable for this
 - Subscribe manually and then check that the values are correct
 - Mocking problematic if no dependency injection is used (thank god Angular)
 - Example:
+
 ```typescript
 it('should make a call to Hacker News', () => {
-    observable.take(1).subscribe(result => { 
+    observable.take(1).subscribe(result => {
       expect(result).toEqual([1, 2, 3]);
     });
 });
@@ -362,12 +366,8 @@ Angular 4 introduced two updates to templates
 ```angular2html
 <div *ngIf="userList | async as users; else loading">
   <div *ngFor="let user of users; count as count; index as i">
-User {{i}} of {{count}}
+    User {{i}} of {{count}}
   </div>
 </div>
 <ng-template #loading>Loading...</ng-template>
 ```
-
----
-# Decision Tree at reactivex.io/rxjs/ - Demo
-[Decision tree](http://reactivex.io/rxjs/)
