@@ -377,8 +377,9 @@ Let's get started.
 ```bash
 npm install @ngrx/store @ngrx/effects @ngrx/store-devtools
 npm install @ngrx/schematics --save-dev
-ng set defaults.schematics.collection=@ngrx/schematics
+ng config cli.defaultCollection @ngrx/schematics
 ng generate store State --root --module app
+ng generate effect App --root --module app
 ```
 
 ---
@@ -390,13 +391,17 @@ ng generate interface news
 ng generate feature news --module app
 ng generate component news
 ```
-2. Set up the state to contain
+2. In `news.reducer.ts`, set up the state to contain
 ```typescript
 news: News[]
 ```
-3. Set up initial data to contain 
+and initial data to contain 
 ```typescript
 news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, again' }]
+```
+4. In `news.interface.ts` add
+```typescript
+title: string
 ```
 
 ---
@@ -465,7 +470,10 @@ export class NewsComponent implements OnInit {
 
 ---
 # Exercise
-Create a feature selector and state selector to select the news and use it in `NewsComponent`
+Create:
+- A feature selector
+- A state selector that uses the feature selector and selects the news from the state
+- Subscription in the `NewsComponent` and use the `async` pipe in the template with `*ngFor` to print the news 
 
 ---
 # Testing Reducers
@@ -492,7 +500,7 @@ describe('counter reducer', () => {
 
 ---
 # Exercise
-Test your reducer for setting the array.
+Test your reducer for setting the array when there is `News` action dispatched.
 
 ---
 # What Should Be Part of Store: SHARI
