@@ -86,36 +86,21 @@ will result in HTML
 Build Universal app ([source](https://blog.angular.io/angular-5-1-more-now-available-27d372f5eb4e)):
 1. Run:
 ```bash
-npm install --save @angular/platform-server @nguniversal/module-map-ngfactory-loader ts-loader@3.5.0
-ng g universal universal
+npm install @angular/platform-server @nguniversal/module-map-ngfactory-loader @nguniversal/express-engine ts-loader webpack-cli
+ng g universal --client-project angular6-ssr
 ```
 2. Copy [this](https://gist.github.com/RoopeHakulinen/9c9653cf62326ddbaff065729e3d8b64) as `server.ts` in your project's root
 3. Copy [this](https://gist.github.com/RoopeHakulinen/94bfa8023eea331f11f78a9ec815605b) s `webpack.server.config.js` in your project's root
 4. Add these to the `scripts` section of `package.json`:
 ```json
-"ssr": "npm run build:ssr && npm run serve:ssr",
 "build:ssr": "npm run build:client-and-server-bundles && npm run webpack:server",
-"serve:ssr": "node dist/server.js",
-"build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
+"serve:ssr": "node dist/server",
+"build:client-and-server-bundles": "ng build --prod && ng run angular6-ssr:server",
 "webpack:server": "webpack --config webpack.server.config.js --progress --colors"
 ```
-
-Continue to next slide ->
-
----
-# Exercise
-5. Alter `.angular-cli.json` to contain
-```json
-"outDir": "dist/browser/",
-```
-for the first object in `apps` array and 
-```json
-"outDir": "dist/server/",
-```
-for the second object in `apps` array
 5. Run 
 ```bash
-npm run ssr
+npm run build:ssr && npm run serve:ssr
 ```
 and go to `localhost:4000` to see what initial page load's HTML now looks
 
