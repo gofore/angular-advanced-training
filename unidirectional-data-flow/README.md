@@ -454,7 +454,7 @@ import { Component, OnInit } from '@angular/core';
 import { State } from '../reducers';
 import { Store } from '@ngrx/store';
 import { getNewsSelector } from '../news.reducer';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { News } from '../news';
 
 @Component({
