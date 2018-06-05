@@ -171,7 +171,7 @@ to
 
 3. Change `package.json` by adding new script (`scripts` property):
 ```json
-"local-pwa": "npm run build && http-server -p 8081 ./dist/angular6-pwa"
+"local-pwa": "npm run build && http-server -p 8081 ./dist/angular-pwa"
 ```
 
 4. Run
