@@ -54,7 +54,7 @@ myObservable({
 
 ---
 # Exercise
-1. Implement a function `IntervalObservable` which creates an observable that when subscribed emits next value (0, 1, 2 and so on) every N (argument) milliseconds. You can skip error or complete events. The following should work:
+1. Implement a function `intervalObservable` which creates an observable that when subscribed emits next value (0, 1, 2 and so on) every N (argument) milliseconds. You can skip error or complete events. The following should work:
 ```typescript
 const subscription = intervalObservable(500).subscribe({ next: console.log });
 setTimeout(subscription, 3000);
