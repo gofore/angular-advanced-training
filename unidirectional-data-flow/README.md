@@ -349,11 +349,14 @@ export type CounterAction = IncrementAction | ResetAction;
 # Typed Action Reducer
 
 ```typescript
-import { CounterAction, INCREMENT } from '../actions/counter.actions';
+import {
+  CounterAction,
+  IncrementCounterAction
+} from '../actions/counter.actions';
 
 export function counterReducer(state = 10, action: CounterAction) {
   switch (action.type) {
-    case INCREMENT:
+    case IncrementCounterAction:
       return state + action.value;
 
     default:
