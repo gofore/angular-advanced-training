@@ -402,7 +402,7 @@ and initial data to contain
 ```typescript
 news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, again' }]
 ```
-4. In `news.interface.ts` add
+4. In `news.ts` add
 ```typescript
 title: string
 ```
