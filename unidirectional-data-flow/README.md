@@ -394,17 +394,17 @@ ng generate interface news
 ng generate feature news --module app
 ng generate component news
 ```
-2. In `news.reducer.ts`, set up the state to contain
+2. In `news.ts` add
+```typescript
+title: string
+```
+3. In `news.reducer.ts`, set up the state to contain
 ```typescript
 news: News[]
 ```
 and initial data to contain 
 ```typescript
 news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, again' }]
-```
-4. In `news.ts` add
-```typescript
-title: string
 ```
 
 ---
