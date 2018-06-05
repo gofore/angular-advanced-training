@@ -412,10 +412,10 @@ news: [{ title: 'Taxation is getting even higher' }, { title: 'Weather is cold, 
 - Selectors allow picking parts of the state
 - Two types:
  - Feature selector: Select a feature from whole store
- - State selector: Withing one feature select the right part of the state
+ - State selector: Within one feature select the right part of the state
 
 ---
-# Feature Selectores
+# Feature Selectors
 - Choose the right feature from the overall state of the application
 - Necessary because of lazy loading possibility of features
  
