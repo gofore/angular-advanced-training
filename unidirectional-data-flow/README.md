@@ -468,6 +468,8 @@ export class NewsComponent implements OnInit {
   constructor(private store: Store<State>) {
     `this.news = this.store.select(getNewsSelector);`
   }
+
+  ngOnInit() {}
 }
 ```
 
